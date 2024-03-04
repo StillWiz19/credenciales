@@ -11,7 +11,7 @@
         <h1>Gestor de Credenciales</h1>
         <ul>
             <li><a href="registrar.php">Registrar Credenciales</a></li>
-            <li><a href="listar.php">Listar Credenciales</a></li>
+            <li><a href="listarcredenciales.php">Listar Credenciales</a></li>
         </ul>
     </div>
 </body>
