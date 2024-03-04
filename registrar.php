@@ -40,7 +40,7 @@
         <button id="startCameraButton" type="button">Abrir Cámara</button>
         <video id="video" width="400" height="300" style="display: none;"></video>
         <button id="captureButton" style="display: none;" type="button">Capturar Foto</button>
-        <canvas id="canvas" width="400" height="300" style="display: none;"></canvas>
+        <canvas id="canvas" width="550" height="850" style="display: none;"></canvas>
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
 
         <label for="estado">Estado:</label>
@@ -56,7 +56,7 @@
 </div>
 
 <div id="vistaPreviaCredencial">
-    <h3>Credencial</h3>
+    <h3>Vista Previa de Credencial</h3>
     <img id="credencialFoto" src="#" alt="Vista previa de la credencial">
     <p>Nombre: <span id="credencialNombre"></span></p>
     <p>Rut: <span id="credencialRut"></span></p>
@@ -109,9 +109,15 @@
     });
 
     captureButton.addEventListener('click', () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        const fotoWidth = 260; 
+        const fotoHeight = 320; 
+        canvas.width = fotoWidth;
+        canvas.height = fotoHeight;
+
+        const x = (fotoWidth - video.videoWidth) / 2;
+        const y = (fotoHeight - video.videoHeight) / 2;
+
+        canvas.getContext('2d').drawImage(video, x, y, video.videoWidth, video.videoHeight);
         const fotoURL = canvas.toDataURL('image/jpeg');
         fotoMostrada.src = fotoURL;
         fotoMostrada.style.display = 'block';
@@ -128,4 +134,3 @@
 </script>
 </body>
 </html>
-
