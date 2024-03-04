@@ -10,11 +10,8 @@
     <div class="formulario">
         <h2>Registrar Nuevas Credenciales</h2>
         <form action="procesar_registrar.php" method="POST">
-            <label for="nombre">Nombres: </label>
-            <input type="text" id="nombres" name="nombre" required>
-
-            <label for="apellidos">Apellidos:</label>
-            <input type="text" id="apellidos" name="apellidos" required>
+            <label for="nombre">Nombre Completo: </label>
+            <input type="text" id="nombre" name="nombre" required>
 
             <label for="rut">Rut: </label>
             <input type="text" id="rut" name="rut" required>
