@@ -23,13 +23,14 @@
         <input type="text" id="departamento" name="departamento" required>
 
         <label for="foto">Foto:</label>
-        <button id="startCameraButton">Abrir Cámara</button>
+        <button id="startCameraButton" type="button">Abrir Cámara</button>
         <video id="video" width="400" height="300" style="display: none;"></video>
         <button id="captureButton" style="display: none;">Capturar Foto</button>
         <canvas id="canvas" width="400" height="300" style="display: none;"></canvas>
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
 
         <label for="estado">Estado:</label>
+        <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
         <select id="estado" name="estado" required>
             <option value="activo">Activo</option>
             <option value="inactivo">Inactivo</option>
@@ -46,20 +47,35 @@
     const captureButton = document.getElementById('captureButton');
     const fotoMostrada = document.getElementById('fotoMostrada');
     let mediaStream = null;
+    let isCameraOn = false;
 
     startCameraButton.addEventListener('click', () => {
-        navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            video.srcObject = stream;
-            video.play();
-            startCameraButton.style.display = 'none';
-            captureButton.style.display = 'block';
-            video.style.display = 'block';
-            mediaStream = stream;
-        })
-        .catch(error => {
-            console.error('Error al acceder a la cámara.', error);
-        });
+        if (!isCameraOn) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                mediaStream = stream;
+                video.srcObject = mediaStream;
+                video.play();
+                startCameraButton.textContent = 'Cerrar Cámara';
+                captureButton.style.display = 'block';
+                video.style.display = 'block';
+                isCameraOn = true;
+            })
+            .catch(error => {
+                console.error('Error al acceder a la cámara.', error);
+            });
+        } else {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => {
+                    track.stop();
+                });
+            }
+            video.srcObject = null;
+            startCameraButton.textContent = 'Abrir Cámara';
+            captureButton.style.display = 'none';
+            video.style.display = 'none';
+            isCameraOn = false;
+        }
     });
 
     captureButton.addEventListener('click', () => {
@@ -68,12 +84,6 @@
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         fotoMostrada.src = canvas.toDataURL('image/jpeg');
         fotoMostrada.style.display = 'block';
-        video.style.display = 'block'; 
-        if (mediaStream) {
-            mediaStream.getTracks().forEach(track => {
-                track.stop();
-            });
-        }
     });
 </script>
 </body>
