@@ -40,28 +40,21 @@
         <button id="startCameraButton" type="button">Abrir Cámara</button>
         <video id="video" width="400" height="300" style="display: none;"></video>
         <button id="captureButton" style="display: none;" type="button">Capturar Foto</button>
-        <canvas id="canvas" width="550" height="850" style="display: none;"></canvas>
+        <canvas id="canvas" width="1650" height="2550" style="display: none;"></canvas>
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
-
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" required>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-        </select>
-
         <input type="button" id="btnVistaPrevia" value="Vista Previa">
+
+        <div id="vistaPreviaCredencial">
+            <h3>Vista Previa de Credencial</h3>
+            <img id="credencialFoto" src="#" alt="Vista previa de la credencial">
+            <p>Nombre: <span id="credencialNombre"></span></p>
+            <p>Rut: <span id="credencialRut"></span></p>
+            <p>Cargo: <span id="credencialCargo"></span></p>
+            <p>Departamento: <span id="credencialDepartamento"></span></p>
+        </div>
         
         <input type="submit" value="Registrar">
     </form>
-</div>
-
-<div id="vistaPreviaCredencial">
-    <h3>Vista Previa de Credencial</h3>
-    <img id="credencialFoto" src="#" alt="Vista previa de la credencial">
-    <p>Nombre: <span id="credencialNombre"></span></p>
-    <p>Rut: <span id="credencialRut"></span></p>
-    <p>Cargo: <span id="credencialCargo"></span></p>
-    <p>Departamento: <span id="credencialDepartamento"></span></p>
 </div>
 
 <script>
@@ -134,3 +127,5 @@
 </script>
 </body>
 </html>
+
+
