@@ -12,6 +12,11 @@
         margin-top: 20px;
         width: 5.5cm;
         height: 8.5cm;
+        background-color: #add8e6; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     #vistaPreviaCredencial img {
@@ -19,6 +24,11 @@
         max-height: 100%;
         width: 3cm;
         height: 4cm;
+        margin-bottom: 10px;
+    }
+
+    #vistaPreviaCredencial p {
+        margin: 0;
     }
 </style>
 </head>
@@ -111,7 +121,7 @@
         
         const vistaPreviaCredencial = `
             <div id="vistaPreviaCredencial">
-                <h3>Vista Previa de Credencial</h3>
+                <h3>Credencial Municipal</h3>
                 <img id="credencialFoto" src="${fotoMostrada.src}" alt="Vista previa de la credencial">
                 <p>Nombre: ${credencialNombre}</p>
                 <p>Rut: ${credencialRut}</p>
@@ -121,13 +131,17 @@
         `;
 
         const nuevaVentana = window.open('', 'Vista Previa de Credencial', 'width=500,height=400');
-        nuevaVentana.document.write('<html><head><title>Vista Previa de Credencial</title></head><body>');
+        nuevaVentana.document.write('<html><head><title>Credencial Municipal</title><style>#vistaPreviaCredencial { background-color: #add8e6; display: flex; flex-direction: column; align-items: center; justify-content: center; }</style></head><body>');
         nuevaVentana.document.write(vistaPreviaCredencial);
         nuevaVentana.document.write('</body></html>');
     });
 </script>
 </body>
 </html>
+
+
+
+
 
 
 
