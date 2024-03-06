@@ -49,29 +49,41 @@
         <input type="submit" value="Registrar" name="registrar">
     </form>
 </div>
-<?php
-include("C:/xampp/htdocs/conexion/conexion.php");
 
+<!--PHP con consulta SQL para insertar formulario en base de datos-->
+<?php
+include("C:/xampp/htdocs/conexion/conexion.php");   //llamado a php con conexion a base de datos
+
+// si se activa el input tipo submit
 if (isset($_POST["registrar"])) {
+    // asignacion de respuestas del formulario a variables
     $nombre = $_POST["nombre"];
     $rut = $_POST["rut"];
     $cargo = $_POST["cargo"];
     $departamento = $_POST["departamento"];
     //$foto = $_POST["foto"];
 
+    // consulta SQL
     $query = "INSERT INTO credenciales (nombre,rut,cargo,departamento) VALUES (?,?,?,?)";
+    // preparacion de consulta para ejecucion
     $sentencia = mysqli_prepare($conexion, $query);
 
+    // genera formato de los paramentros necesarios de la consulta
     mysqli_stmt_bind_param($sentencia,"ssss",$nombre,$rut,$cargo,$departamento);
+    // ejecucion de consulta
     mysqli_stmt_execute($sentencia);
+    // retorna numero de columnas afectadas
     $respuesta = mysqli_stmt_affected_rows($sentencia);
 
     if ($respuesta > 0) {
+        // si el numero de columnas afectadas es mayor a 0 se confirma con una alerta
         echo "<script>alert('Credencial registrada')</script>";
     } else {
         echo "Sin registros";
     }
+    // cierra la declaracion
     mysqli_stmt_close($sentencia);
+    // termina la conexion
     mysqli_close($conexion);
 }
 ?>
