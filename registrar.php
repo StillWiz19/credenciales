@@ -46,10 +46,35 @@
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
         <input type="button" id="btnVistaPrevia" value="Vista Previa">
         
-        <input type="submit" value="Registrar">
+        <input type="submit" value="Registrar" name="registrar">
     </form>
 </div>
+<?php
+include("C:/xampp/htdocs/conexion/conexion.php");
 
+if (isset($_POST["registrar"])) {
+    $nombre = $_POST["nombre"];
+    $rut = $_POST["rut"];
+    $cargo = $_POST["cargo"];
+    $departamento = $_POST["departamento"];
+    //$foto = $_POST["foto"];
+
+    $query = "INSERT INTO credenciales (nombre,rut,cargo,departamento) VALUES (?,?,?,?)";
+    $sentencia = mysqli_prepare($conexion, $query);
+
+    mysqli_stmt_bind_param($sentencia,"ssss",$nombre,$rut,$cargo,$departamento);
+    mysqli_stmt_execute($sentencia);
+    $respuesta = mysqli_stmt_affected_rows($sentencia);
+
+    if ($respuesta > 0) {
+        echo "<script>alert('Credencial registrada')</script>";
+    } else {
+        echo "Sin registros";
+    }
+    mysqli_stmt_close($sentencia);
+    mysqli_close($conexion);
+}
+?>
 <script>
     const startCameraButton = document.getElementById('startCameraButton');
     const video = document.getElementById('video');
