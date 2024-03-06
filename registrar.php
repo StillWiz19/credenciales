@@ -7,16 +7,18 @@
 <link rel="stylesheet" href="styles.css">
 <style>
     #vistaPreviaCredencial {
-        display: none;
         border: 1px solid #ccc;
         padding: 20px;
         margin-top: 20px;
-        width: 400px;
+        width: 5.5cm;
+        height: 8.5cm;
     }
 
     #vistaPreviaCredencial img {
         max-width: 100%;
-        max-height: 200px;
+        max-height: 100%;
+        width: 3cm;
+        height: 4cm;
     }
 </style>
 </head>
@@ -43,15 +45,6 @@
         <canvas id="canvas" width="1650" height="2550" style="display: none;"></canvas>
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
         <input type="button" id="btnVistaPrevia" value="Vista Previa">
-
-        <div id="vistaPreviaCredencial">
-            <h3>Vista Previa de Credencial</h3>
-            <img id="credencialFoto" src="#" alt="Vista previa de la credencial">
-            <p>Nombre: <span id="credencialNombre"></span></p>
-            <p>Rut: <span id="credencialRut"></span></p>
-            <p>Cargo: <span id="credencialCargo"></span></p>
-            <p>Departamento: <span id="credencialDepartamento"></span></p>
-        </div>
         
         <input type="submit" value="Registrar">
     </form>
@@ -63,12 +56,6 @@
     const canvas = document.getElementById('canvas');
     const captureButton = document.getElementById('captureButton');
     const fotoMostrada = document.getElementById('fotoMostrada');
-    const vistaPreviaCredencial = document.getElementById('vistaPreviaCredencial');
-    const credencialFoto = document.getElementById('credencialFoto');
-    const credencialNombre = document.getElementById('credencialNombre');
-    const credencialRut = document.getElementById('credencialRut');
-    const credencialCargo = document.getElementById('credencialCargo');
-    const credencialDepartamento = document.getElementById('credencialDepartamento');
     let mediaStream = null;
     let isCameraOn = false;
 
@@ -114,18 +101,34 @@
         const fotoURL = canvas.toDataURL('image/jpeg');
         fotoMostrada.src = fotoURL;
         fotoMostrada.style.display = 'block';
-        credencialFoto.src = fotoURL;
     });
 
     document.getElementById('btnVistaPrevia').addEventListener('click', () => {
-        credencialNombre.textContent = document.getElementById('nombre').value;
-        credencialRut.textContent = document.getElementById('rut').value;
-        credencialCargo.textContent = document.getElementById('cargo').value;
-        credencialDepartamento.textContent = document.getElementById('departamento').value;
-        vistaPreviaCredencial.style.display = 'block';
+        const credencialNombre = document.getElementById('nombre').value;
+        const credencialRut = document.getElementById('rut').value;
+        const credencialCargo = document.getElementById('cargo').value;
+        const credencialDepartamento = document.getElementById('departamento').value;
+        
+        const vistaPreviaCredencial = `
+            <div id="vistaPreviaCredencial">
+                <h3>Vista Previa de Credencial</h3>
+                <img id="credencialFoto" src="${fotoMostrada.src}" alt="Vista previa de la credencial">
+                <p>Nombre: ${credencialNombre}</p>
+                <p>Rut: ${credencialRut}</p>
+                <p>Cargo: ${credencialCargo}</p>
+                <p>Departamento: ${credencialDepartamento}</p>
+            </div>
+        `;
+
+        const nuevaVentana = window.open('', 'Vista Previa de Credencial', 'width=500,height=400');
+        nuevaVentana.document.write('<html><head><title>Vista Previa de Credencial</title></head><body>');
+        nuevaVentana.document.write(vistaPreviaCredencial);
+        nuevaVentana.document.write('</body></html>');
     });
 </script>
 </body>
 </html>
+
+
 
 
