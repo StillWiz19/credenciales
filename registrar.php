@@ -79,14 +79,23 @@
         color: black; 
     }
 
-    #camara {
+    #camaraModal {
         display: none;
     }
 
     #videoModal {
-        width: 100%;
-        height: auto;
+        width: 600px;
+        height: 500px;
     }
+
+    #camara {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    } 
+
 </style>
 </head>
 <body>
@@ -118,7 +127,17 @@
 </div>
 
 
-<div id="myModal" class="modal">
+<div id="camaraModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="camara">
+        <video id="videoModal" autoplay></video>
+        <button id="captureButtonModal" type="button">Capturar Foto</button>
+    </div>
+  </div>
+</div>
+
+<div id="vistaPreviaModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <div id="vistaPreviaCredencial">
@@ -128,10 +147,6 @@
         <p>Rut: <span id="modalRut"></span></p>
         <p>Cargo: <span id="modalCargo"></span></p>
         <p>Departamento: <span id="modalDepartamento"></span></p>
-    </div>
-    <div id="camara">
-        <video id="videoModal" autoplay></video>
-        <button id="captureButtonModal" type="button">Capturar Foto</button>
     </div>
   </div>
 </div>
@@ -143,17 +158,16 @@
     const captureButton = document.getElementById('captureButton');
     const captureButtonModal = document.getElementById('captureButtonModal');
     const fotoMostrada = document.getElementById('fotoMostrada');
-    const modal = document.getElementById("myModal");
-    const span = document.getElementsByClassName("close")[0];
+    const camaraModal = document.getElementById('camaraModal');
+    const vistaPreviaModal = document.getElementById('vistaPreviaModal');
+    const span = document.getElementsByClassName("close");
     const credencialFoto = document.getElementById('credencialFoto');
     const videoModal = document.getElementById('videoModal');
-    const camaraDiv = document.getElementById('camara');
-    const vistaPreviaCredencialDiv = document.getElementById('vistaPreviaCredencial');
     let mediaStream = null;
     let isCameraOn = false;
 
     startCameraButton.addEventListener('click', () => {
-        showCamera();
+        showCameraModal();
     });
 
     captureButtonModal.addEventListener('click', () => {
@@ -169,7 +183,7 @@
         const fotoURL = canvas.toDataURL('image/jpeg');
         fotoMostrada.src = fotoURL;
         fotoMostrada.style.display = 'block';
-        modal.style.display = 'none';
+        camaraModal.style.display = 'none';
         stopCamera(); 
     });
 
@@ -190,30 +204,35 @@
     });
 
     document.getElementById('btnVistaPrevia').addEventListener('click', () => {
-        showCredencialPreview();
+        showCredencialPreviewModal();
     });
 
-    span.onclick = function() {
-        closeModal();
+    span[0].onclick = function() {
+        closeModal(camaraModal);
+    }
+
+    span[1].onclick = function() {
+        closeModal(vistaPreviaModal);
     }
 
     window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
+        if (event.target == camaraModal) {
+            closeModal(camaraModal);
+        }
+        if (event.target == vistaPreviaModal) {
+            closeModal(vistaPreviaModal);
         }
     }
 
-    function showCamera() {
-        modal.style.display = 'block';
-        camaraDiv.style.display = 'block';
-        vistaPreviaCredencialDiv.style.display = 'none';
+    function showCameraModal() {
+        camaraModal.style.display = 'block';
+        vistaPreviaModal.style.display = 'none';
         if (!isCameraOn) {
             navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
                 mediaStream = stream;
                 videoModal.srcObject = mediaStream;
                 videoModal.play();
-                startCameraButton.textContent = 'Cerrar Cámara';
                 isCameraOn = true;
             })
             .catch(error => {
@@ -224,18 +243,7 @@
         }
     }
 
-    function stopCamera() {
-        if (mediaStream) {
-            mediaStream.getTracks().forEach(track => {
-                track.stop();
-            });
-        }
-        videoModal.srcObject = null;
-        startCameraButton.textContent = 'Abrir Cámara';
-        isCameraOn = false;
-    }
-
-    function showCredencialPreview() {
+    function showCredencialPreviewModal() {
         const credencialNombre = document.getElementById('nombre').value;
         const credencialRut = document.getElementById('rut').value;
         const credencialCargo = document.getElementById('cargo').value;
@@ -247,21 +255,28 @@
         document.getElementById("modalDepartamento").textContent = credencialDepartamento;
         credencialFoto.src = fotoMostrada.src;
 
-        modal.style.display = "block";
-        camaraDiv.style.display = 'none';
-        vistaPreviaCredencialDiv.style.display = 'block';
-        stopCamera(); 
+        camaraModal.style.display = 'none';
+        vistaPreviaModal.style.display = 'block';
     }
 
-    function closeModal() {
+    function stopCamera() {
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => {
+                track.stop();
+            });
+        }
+        videoModal.srcObject = null;
+        isCameraOn = false;
+    }
+
+    function closeModal(modal) {
         modal.style.display = "none";
-        camaraDiv.style.display = 'none';
-        vistaPreviaCredencialDiv.style.display = 'block';
         stopCamera(); 
     }
 </script>
 </body>
 </html>
+
 
 
 
