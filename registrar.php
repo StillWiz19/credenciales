@@ -25,7 +25,7 @@
 <body>
 <div class="formulario">
     <h2>Registrar Nuevas Credenciales</h2>
-    <form id="formulario" method="POST">
+    <form id="formulario" method="POST" enctype="multipart/form-data">
         <label for="nombre">Nombre Completo: </label>
         <input type="text" id="nombre" name="nombre" required>
 
@@ -63,13 +63,25 @@ if (isset($_POST["registrar"])) {
     $departamento = $_POST["departamento"];
     //$foto = $_POST["foto"];
 
+    $nombre_foto = $_FILES["foto"]["name"];
+    $temporal = $_FILES["foto"]["tmp_name"];
+    $carpeta = 'img/';
+    $ruta = $carpeta.$nombre_foto;
+
+    // mover imagen al directorio img
+    if(move_uploaded_file($temporal, $ruta)){
+        echo "Correcto";
+    } else {
+        echo "error";
+    };
+
     // consulta SQL
-    $query = "INSERT INTO credenciales (nombre,rut,cargo,departamento) VALUES (?,?,?,?)";
+    $query = "INSERT INTO credenciales (nombre,rut,cargo,departamento,foto) VALUES (?,?,?,?,?)";
     // preparacion de consulta para ejecucion
     $sentencia = mysqli_prepare($conexion, $query);
 
     // genera formato de los paramentros necesarios de la consulta
-    mysqli_stmt_bind_param($sentencia,"ssss",$nombre,$rut,$cargo,$departamento);
+    mysqli_stmt_bind_param($sentencia,"sssss",$nombre,$rut,$cargo,$departamento,$ruta);
     // ejecucion de consulta
     mysqli_stmt_execute($sentencia);
     // retorna numero de columnas afectadas
@@ -165,7 +177,3 @@ if (isset($_POST["registrar"])) {
 </script>
 </body>
 </html>
-
-
-
-
