@@ -64,7 +64,7 @@
 
     #vistaPreviaCredencial h3{
         margin-top: 0;
-
+        white-space: nowrap
     }
 
     #vistaPreviaCredencial img {
@@ -170,6 +170,7 @@
         fotoMostrada.src = fotoURL;
         fotoMostrada.style.display = 'block';
         modal.style.display = 'none';
+        stopCamera(); 
     });
 
     captureButton.addEventListener('click', () => {
@@ -185,6 +186,7 @@
         const fotoURL = canvas.toDataURL('image/jpeg');
         fotoMostrada.src = fotoURL;
         fotoMostrada.style.display = 'block';
+        stopCamera(); 
     });
 
     document.getElementById('btnVistaPrevia').addEventListener('click', () => {
@@ -192,28 +194,12 @@
     });
 
     span.onclick = function() {
-        modal.style.display = "none";
-        camaraDiv.style.display = 'none';
-        vistaPreviaCredencialDiv.style.display = 'block';
-        if (mediaStream) {
-            mediaStream.getTracks().forEach(track => {
-                track.stop();
-            });
-        }
-        isCameraOn = false;
+        closeModal();
     }
 
     window.onclick = function(event) {
         if (event.target == modal) {
-            modal.style.display = "none";
-            camaraDiv.style.display = 'none';
-            vistaPreviaCredencialDiv.style.display = 'block';
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => {
-                    track.stop();
-                });
-            }
-            isCameraOn = false;
+            closeModal();
         }
     }
 
@@ -234,15 +220,19 @@
                 console.error('Error al acceder a la cámara.', error);
             });
         } else {
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => {
-                    track.stop();
-                });
-            }
-            videoModal.srcObject = null;
-            startCameraButton.textContent = 'Abrir Cámara';
-            isCameraOn = false;
+            stopCamera(); 
         }
+    }
+
+    function stopCamera() {
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => {
+                track.stop();
+            });
+        }
+        videoModal.srcObject = null;
+        startCameraButton.textContent = 'Abrir Cámara';
+        isCameraOn = false;
     }
 
     function showCredencialPreview() {
@@ -260,17 +250,18 @@
         modal.style.display = "block";
         camaraDiv.style.display = 'none';
         vistaPreviaCredencialDiv.style.display = 'block';
-        if (mediaStream) {
-            mediaStream.getTracks().forEach(track => {
-                track.stop();
-            });
-        }
-        isCameraOn = false;
+        stopCamera(); 
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+        camaraDiv.style.display = 'none';
+        vistaPreviaCredencialDiv.style.display = 'block';
+        stopCamera(); 
     }
 </script>
 </body>
 </html>
-
 
 
 
