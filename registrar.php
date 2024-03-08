@@ -120,6 +120,8 @@
         <button id="captureButton" style="display: none;" type="button">Capturar Foto</button>
         <canvas id="canvas" width="1650" height="2550" style="display: none;"></canvas>
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
+        <input type="hidden" id="rutaFoto" name="rutaFoto">
+        <input type="hidden" id="fotoTemp" name="fotoTemp">
         <input type="button" id="btnVistaPrevia" value="Vista Previa">
         
         <input type="submit" value="Registrar">
@@ -185,6 +187,7 @@
         fotoMostrada.style.display = 'block';
         camaraModal.style.display = 'none';
         stopCamera(); 
+        document.getElementById('fotoTemp').value = fotoURL;
     });
 
     captureButton.addEventListener('click', () => {
@@ -200,7 +203,8 @@
         const fotoURL = canvas.toDataURL('image/jpeg');
         fotoMostrada.src = fotoURL;
         fotoMostrada.style.display = 'block';
-        stopCamera(); 
+        stopCamera();
+        document.getElementById('fotoTemp').value = fotoURL; 
     });
 
     document.getElementById('btnVistaPrevia').addEventListener('click', () => {
