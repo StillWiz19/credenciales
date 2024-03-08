@@ -46,7 +46,7 @@
     }
 
     #vistaPreviaCredencial {
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f4/Escudo_de_Angol.svg');
+    background-image: url('img/fondo.jpeg');
     background-size: contain;
     background-repeat: no-repeat; 
     display: flex;
@@ -101,7 +101,7 @@
 <body>
 <div class="formulario">
     <h2>Registrar Nuevas Credenciales</h2>
-    <form id="formulario" method="POST">
+    <form action="listarcredenciales.php" name="" method="POST">
         <label for="nombre">Nombre Completo: </label>
         <input type="text" id="nombre" name="nombre" required>
 
