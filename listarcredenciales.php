@@ -43,17 +43,7 @@
 <body>
     <h1>Listado de Credenciales</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Rut</th>
-                <th>Cargo</th>
-                <th>Departamento</th>
-                <th>Foto</th>
-            </tr>
-        </thead>
+   
         <tbody>
         <?php
 $user = "root";
@@ -65,7 +55,7 @@ $conexion = mysqli_connect($server, $user, $pass);
 if ($conexion->connect_errno) {
     die("Conexion Fallida: " . $conexion->connect_errno);
 } else {
-    echo "Conectado";
+    
 }
 
 $datab = "credenciales";
@@ -74,7 +64,7 @@ $db = mysqli_select_db($conexion, $datab);
 if (!$db) {
     echo "No se ha podido encontrar la tabla";
 } else {
-    echo "<h3>Listado de Credenciales</h3>";
+    echo "<h3>Listado de Credenciales:</h3>";
 }
 
 if (isset($_POST["nombre"], $_POST["rut"], $_POST["cargo"], $_POST["departamento"], $_POST["fotoTemp"])) {
@@ -136,7 +126,7 @@ mysqli_close($conexion);
 ?>
 
         </tbody>
-    </table>
+
 
     <a href="index.php">Volver Atrás</a>
 </body>

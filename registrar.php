@@ -64,14 +64,15 @@
 
     #vistaPreviaCredencial h3{
         margin-top: 0;
-        white-space: nowrap
+        white-space: nowrap;
+        color: white;
     }
 
-    #vistaPreviaCredencial img {
-        
-        width: 2cm;
-        height: 3cm;
+    #vistaPreviaCredencial img {        
+        width: 97px;
+        height: 133px;
         margin-bottom: 10px;
+        margin-top: -10px; 
     }
 
     #vistaPreviaCredencial p {
@@ -145,10 +146,10 @@
     <div id="vistaPreviaCredencial">
         <h3>Credencial Municipal</h3>
         <img id="credencialFoto" src="#" alt="Vista previa de la credencial">
-        <p>Nombre: <span id="modalNombre"></span></p>
-        <p>Rut: <span id="modalRut"></span></p>
-        <p>Cargo: <span id="modalCargo"></span></p>
-        <p>Departamento: <span id="modalDepartamento"></span></p>
+        <p><span id="modalNombre"></span></p>
+        <p><span id="modalRut"></span></p>
+        <p><span id="modalCargo"></span></p>
+        <p><span id="modalDepartamento"></span></p>
     </div>
   </div>
 </div>
@@ -280,6 +281,8 @@
 </script>
 </body>
 </html>
+
+
 
 
 
