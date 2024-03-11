@@ -153,7 +153,7 @@
         <p><span id="modalRut"></span></p>
         <p><span id="modalCargo"></span></p>
         <p><span id="modalDepartamento"></span></p>
-        <img id="codigoQRImg" src="#" alt="Codigo QR" style="margin-top: 10px;">
+        <img id="codigoQRImg" src="#" alt="Codigo QR" style="margin-top: 10px; width: 80px;">
     </div>
   </div>
 </div>
