@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registrar Credenciales</title>
 <link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <style>
    
     .modal {
@@ -27,7 +28,6 @@
         height: 340px; 
         text-align: center;
         background-color: transparent;
-        
         background-position: center;
     }
 
@@ -46,31 +46,30 @@
     }
 
     #vistaPreviaCredencial {
-    background-image: url('img/fondo.jpeg');
-    background-size: contain;
-    background-repeat: no-repeat; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%; 
-    height: 100%; 
-    padding: 20px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.05); 
-}
-
-
+        background-image: url('img/fondo.jpeg');
+        background-size: contain;
+        background-repeat: no-repeat; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%; 
+        height: 100%; 
+        padding: 20px;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.05); 
+    }
 
     #vistaPreviaCredencial h3{
         margin-top: 0;
+        margin-bottom: 10;
         white-space: nowrap;
         color: white;
     }
 
     #vistaPreviaCredencial img {        
         width: 97px;
-        height: 133px;
+        height: 140px;
         margin-bottom: 10px;
         margin-top: -10px; 
     }
@@ -79,6 +78,8 @@
         margin: 0;
         color: black; 
     }
+
+
 
     #camaraModal {
         display: none;
@@ -123,12 +124,14 @@
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
         <input type="hidden" id="rutaFoto" name="rutaFoto">
         <input type="hidden" id="fotoTemp" name="fotoTemp">
+        <input type="button" id="btnGenerarQR" value="Generar QR">
         <input type="button" id="btnVistaPrevia" value="Vista Previa">
         
         <input type="submit" value="Registrar">
     </form>
 </div>
 
+<div id="codigoQR"></div>
 
 <div id="camaraModal" class="modal">
   <div class="modal-content">
@@ -150,6 +153,7 @@
         <p><span id="modalRut"></span></p>
         <p><span id="modalCargo"></span></p>
         <p><span id="modalDepartamento"></span></p>
+        <img id="codigoQRImg" src="#" alt="Codigo QR" style="margin-top: 10px;">
     </div>
   </div>
 </div>
@@ -163,19 +167,23 @@
     const fotoMostrada = document.getElementById('fotoMostrada');
     const camaraModal = document.getElementById('camaraModal');
     const vistaPreviaModal = document.getElementById('vistaPreviaModal');
+    const btnGenerarQR = document.getElementById('btnGenerarQR');
+    const codigoQR = document.getElementById('codigoQR');
     const span = document.getElementsByClassName("close");
     const credencialFoto = document.getElementById('credencialFoto');
     const videoModal = document.getElementById('videoModal');
     let mediaStream = null;
     let isCameraOn = false;
 
+    btnGenerarQR.addEventListener('click', generarQR);
+
     startCameraButton.addEventListener('click', () => {
         showCameraModal();
     });
 
     captureButtonModal.addEventListener('click', () => {
-        const fotoWidth = 260; 
-        const fotoHeight = 320; 
+        const fotoWidth = 300; 
+        const fotoHeight = 410; 
         canvas.width = fotoWidth;
         canvas.height = fotoHeight;
 
@@ -229,6 +237,25 @@
         }
     }
 
+    function generarQR() {
+    const credencialNombre = document.getElementById('nombre').value;
+    const credencialRut = document.getElementById('rut').value;
+    const credencialCargo = document.getElementById('cargo').value;
+    const credencialDepartamento = document.getElementById('departamento').value;
+
+    const datosCredencial = `Nombre: ${credencialNombre}, Rut: ${credencialRut}, Cargo: ${credencialCargo}, Departamento: ${credencialDepartamento}`;
+    
+    const qr = new QRious({
+        value: datosCredencial,
+        size: 300
+    });
+
+    const qrImg = document.getElementById('codigoQRImg');
+    qrImg.src = qr.toDataURL();
+}
+
+
+
     function showCameraModal() {
         camaraModal.style.display = 'block';
         vistaPreviaModal.style.display = 'none';
@@ -281,6 +308,7 @@
 </script>
 </body>
 </html>
+
 
 
 
