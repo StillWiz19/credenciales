@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Credenciales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style type="text/css">
         body {
             font-family: Arial, sans-serif;
@@ -37,6 +38,24 @@
 
         tr:hover {
             background-color: #ddd;
+        }
+        .eliminar-btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .eliminar-btn:hover {
+            background-color: #c82333;
+        }
+
+        .eliminar-icon {
+            font-size: 18px;
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -117,6 +136,7 @@ while ($colum = mysqli_fetch_array($result)) {
     echo "<td>" . $colum['cargo']. "</td>";
     echo "<td>" . $colum['departamento']. "</td>";
     echo "<td><img src='" . $colum['foto']. "' style='max-width: 100px;'></td>";
+    echo "<td><button class='eliminar-btn' data-id='" . $colum['id'] . "'><i class='fas fa-trash-alt eliminar-icon'></i> Eliminar</button></td>";
     echo "</tr>";
 }
 
@@ -129,6 +149,24 @@ mysqli_close($conexion);
 
 
     <a href="index.php">Volver Atrás</a>
+
+    <script>
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('eliminar-btn')) {
+                var id = event.target.getAttribute('data-id');
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'eliminar.php', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        event.target.parentNode.parentNode.remove();
+                    }
+                };
+                xhr.send('id=' + id);
+            }
+        });
+    </script>
 </body>
 </html>
 

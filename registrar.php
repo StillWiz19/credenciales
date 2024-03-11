@@ -124,6 +124,7 @@
         <img id="fotoMostrada" src="#" alt="Tu foto" style="display: none; max-width: 100px;">
         <input type="hidden" id="rutaFoto" name="rutaFoto">
         <input type="hidden" id="fotoTemp" name="fotoTemp">
+        <input type="hidden" id="rutaQR" name="rutaQR">
         <input type="button" id="btnGenerarQR" value="Generar QR">
         <input type="button" id="btnVistaPrevia" value="Vista Previa">
         
