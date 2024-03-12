@@ -57,6 +57,11 @@
             font-size: 18px;
             margin-right: 5px;
         }
+
+        .qr-img {
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -86,12 +91,13 @@ if (!$db) {
     echo "<h3>Listado de Credenciales:</h3>";
 }
 
-if (isset($_POST["nombre"], $_POST["rut"], $_POST["cargo"], $_POST["departamento"], $_POST["fotoTemp"])) {
+if (isset($_POST["nombre"], $_POST["rut"], $_POST["cargo"], $_POST["departamento"], $_POST["fotoTemp"], $_POST["rutaQR"])) {
     $nombre = $_POST["nombre"];
     $rut = $_POST["rut"];
     $cargo = $_POST["cargo"];
     $departamento = $_POST["departamento"];
-    $fotoTemp = $_POST["fotoTemp"]; 
+    $fotoTemp = $_POST["fotoTemp"];
+    $rutaQR = $_POST["rutaQR"]; 
 
     
     $directorioDestino = 'img/';
@@ -100,8 +106,10 @@ if (isset($_POST["nombre"], $_POST["rut"], $_POST["cargo"], $_POST["departamento
     file_put_contents($rutaDestino, base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $fotoTemp)));
 
     
-    $instruccion_SQL = "INSERT INTO registrarcredencial (nombre, rut, cargo, departamento, foto)
-                    VALUES ('$nombre','$rut','$cargo','$departamento','$rutaDestino')";
+
+    
+    $instruccion_SQL = "INSERT INTO registrarcredencial (nombre, rut, cargo, departamento, foto, codigoQR)
+                    VALUES ('$nombre','$rut','$cargo','$departamento','$rutaDestino','$rutaQR')";
 
     $resultado = mysqli_query($conexion, $instruccion_SQL);
     if (!$resultado) {
@@ -126,6 +134,7 @@ echo "<th>Rut</th>";
 echo "<th>Cargo</th>";
 echo "<th>Departamento</th>";
 echo "<th>Foto</th>";
+echo "<th>Código QR</th>";
 echo "</tr>";
 
 while ($colum = mysqli_fetch_array($result)) {
@@ -136,6 +145,7 @@ while ($colum = mysqli_fetch_array($result)) {
     echo "<td>" . $colum['cargo']. "</td>";
     echo "<td>" . $colum['departamento']. "</td>";
     echo "<td><img src='" . $colum['foto']. "' style='max-width: 100px;'></td>";
+    echo "<td style='width: 150px;'><img src='" . $colum['codigoQR']. "' class='qr-img'></td>";
     echo "<td><button class='eliminar-btn' data-id='" . $colum['id'] . "'><i class='fas fa-trash-alt eliminar-icon'></i> Eliminar</button></td>";
     echo "</tr>";
 }

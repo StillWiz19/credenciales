@@ -248,11 +248,13 @@
     
     const qr = new QRious({
         value: datosCredencial,
-        size: 300
+        size: 100
     });
 
     const qrImg = document.getElementById('codigoQRImg');
     qrImg.src = qr.toDataURL();
+
+    document.getElementById('rutaQR').value = qr.toDataURL();
 }
 
 
